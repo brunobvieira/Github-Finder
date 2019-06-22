@@ -1,5 +1,5 @@
 import React from 'react';
-import ProTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 /**
  * Navbar component
@@ -32,8 +32,8 @@ Navbar.defaultProps = {
  * @type {{title: *, brandIcon: *}}
  */
 Navbar.propTypes = {
-    title: ProTypes.string.isRequired,
-    brandIcon: ProTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    brandIcon: PropTypes.string.isRequired,
 };
 
 export default Navbar;

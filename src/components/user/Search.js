@@ -19,7 +19,11 @@ class Search extends Component {
      * @type {{text: *}}
      */
     static propTypes = {
-      text: PropTypes.string
+        text: PropTypes.string,
+        searchUsers: PropTypes.func.isRequired,
+        clearUsers: PropTypes.func.isRequired,
+        hasUsers: PropTypes.bool.isRequired,
+        setAlert: PropTypes.func.isRequired,
     };
 
     /**
@@ -36,7 +40,21 @@ class Search extends Component {
      */
     onSubmit = (e) => {
         e.preventDefault();
+
+        if(this.state.text.length === 0){
+            this.props.setAlert('Please enter something', 'light');
+            return;
+        }
+
         this.props.searchUsers(this.state.text);
+    };
+
+    /**
+     * Clear form and users
+     */
+    clear = () => {
+        this.setState({text: ''});
+        this.props.clearUsers();
     };
 
     /**
@@ -44,13 +62,19 @@ class Search extends Component {
      * @returns {*}
      */
     render() {
+        const hasUsers = this.props.hasUsers;
+        const text = this.state.text;
+
         return (
             <div>
                 <form className="form" onSubmit={this.onSubmit}>
-                    <input type="text" name="text" placeholder="Seach Users..." value={this.state.text}
+                    <input type="text" name="text" placeholder="Seach Users..." value={text}
                            onChange={this.onChange}/>
                     <input type="submit" value="Search" className="btn btn-dark btn-block"/>
                 </form>
+                {(text.length > 0 ||hasUsers) && (
+                    <button className="btn btn-light btn-block" onClick={this.clear}>Clear</button>
+                )}
             </div>
         );
     }
