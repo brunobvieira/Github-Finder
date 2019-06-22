@@ -1,6 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * User item component
+ * @param avatar_url
+ * @param login
+ * @param html_url
+ * @returns {*}
+ * @constructor
+ */
 const UserItem = ({user: {avatar_url, login, html_url}}) => {
     return (
         <div className="card text-center">
@@ -13,6 +21,10 @@ const UserItem = ({user: {avatar_url, login, html_url}}) => {
     );
 };
 
+/**
+ * Proptypes definition
+ * @type {{user: *}}
+ */
 UserItem.propTypes = {
     user: PropTypes.object.isRequired,
 };
