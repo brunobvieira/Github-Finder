@@ -4,6 +4,7 @@ import axios from "axios/index";
 
 import Spinner from "../layout/Spinner";
 import Alert from "../layout/Alert";
+import Repos from "../repos/Repos";
 
 /**
  * User Component
@@ -13,7 +14,8 @@ class User extends Component {
     state = {
         user: null,
         alert: null,
-        loading: false
+        loading: false,
+        repos: []
     };
 
     /**
@@ -22,11 +24,16 @@ class User extends Component {
      */
     async componentDidMount() {
         const {match: {params}} = this.props;
+        this.getUser(params.login);
+        this.getUserRepos(params.login);
+    }
+
+    getUser = async (login) =>{
 
         this.setState({loading: true});
 
         try {
-            const res = await axios.get(`https://api.github.com/users/${params.login}` +
+            const res = await axios.get(`https://api.github.com/users/${login}` +
                 `?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}` +
                 `&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
             this.setState({loading: false, user: res.data});
@@ -34,7 +41,21 @@ class User extends Component {
             this.setAlert('User not Found!', 'light');
             this.setState({loading: false, user: null});
         }
-    }
+    };
+
+   getUserRepos = async (login) =>{
+
+       this.setState({loading: true});
+
+       try {
+           const res = await axios.get(`https://api.github.com/users/${login}/repos?per_page=5&sort=created:asc` +
+               `&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}` +
+               `&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+           this.setState({loading: false, repos: res.data});
+       } catch (e) {
+           this.setState({loading: false, repos: []});
+       }
+   };
 
     /**
      * Set the alert state
@@ -46,7 +67,7 @@ class User extends Component {
     };
 
     render() {
-        const {user, loading, alert} = this.state;
+        const {user, loading, alert, repos} = this.state;
 
         if (loading) return <Spinner/>;
 
@@ -103,6 +124,7 @@ class User extends Component {
                     <div className="badge badge-dark">Public Repos: {public_repos}</div>
                     <div className="badge badge-light">Public Gists: {public_gists}</div>
                 </div>
+                <Repos repos={repos}/>
                 <Link to="/" className="btn btn-light">Back to search</Link>
             </Fragment>
         );
