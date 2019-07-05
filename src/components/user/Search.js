@@ -1,14 +1,17 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
+import React, {useState, useContext} from 'react';
+import HomeContext from '../../context/home/HomeContext';
 
 /**
  * Search form component
  */
-const Search = ({searchUsers, clearUsers, hasUsers, showAlert}) => {
+const Search = ({showAlert}) => {
 
     /**
-     * Default state
+     * Context
      */
+    const homeContext = useContext(HomeContext);
+    const {clearUsers, users} = homeContext;
+    const hasUsers = users.length > 0;
     const [text, setText] = useState('');
 
     /**
@@ -31,14 +34,15 @@ const Search = ({searchUsers, clearUsers, hasUsers, showAlert}) => {
             return;
         }
 
-        searchUsers(text);
+        homeContext.searchUsers(text);
+        showAlert(null);
     };
 
     /**
      * Clear form and users
      */
     const clear = () => {
-        setText({text: ''});
+        setText('');
         clearUsers();
     };
 
@@ -53,17 +57,6 @@ const Search = ({searchUsers, clearUsers, hasUsers, showAlert}) => {
             )}
         </div>
     );
-};
-
-/**
- * Proptypes validation definition
- * @type {{text: *}}
- */
-Search.propTypes = {
-    searchUsers: PropTypes.func.isRequired,
-    clearUsers: PropTypes.func.isRequired,
-    hasUsers: PropTypes.bool.isRequired,
-    showAlert: PropTypes.func.isRequired,
 };
 
 export default Search;
