@@ -3,8 +3,8 @@ import {Link} from "react-router-dom";
 import PropTypes from 'prop-types';
 
 import Spinner from "../layout/Spinner";
-import Alert from "../layout/Alert";
 import Repos from "../repos/Repos";
+import NotFound from "../pages/NotFound";
 
 import UserContext from "../../context/user/UserContext";
 
@@ -13,8 +13,7 @@ const Profile = ({param}) => {
     /**
      * Context
      */
-    const userContext = useContext(UserContext);
-    const {user, getUser, repos, getUserRepos, loading} = userContext;
+    const {user, getUser, repos, getUserRepos, loading} = useContext(UserContext);
 
     useEffect(() => {
         getUser(param);
@@ -27,8 +26,7 @@ const Profile = ({param}) => {
     if (user === null) {
         return (
             <Fragment>
-                <Alert alert={{message: 'User not Found!', type: 'light'}}/>
-                <Link to="/" className="btn btn-light">Back to search</Link>
+                <NotFound/>
             </Fragment>
         );
     }

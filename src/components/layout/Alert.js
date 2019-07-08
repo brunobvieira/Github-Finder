@@ -1,13 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {useContext} from 'react';
+import AlertContext from '../../context/alert/AlertContext';
 
 /**
  * Alert Component
- * @param alert
  * @returns {*}
  * @constructor
  */
-const Alert = ({alert}) => {
+const Alert = () => {
+
+    const {alert} = useContext(AlertContext);
 
     return (
         alert != null && (
@@ -16,15 +17,6 @@ const Alert = ({alert}) => {
             </div>
         )
     );
-};
-
-
-/**
- * Proptypes definition
- * @type {{alert: *}}
- */
-Alert.propTypes = {
-    alert: PropTypes.object,
 };
 
 export default Alert;

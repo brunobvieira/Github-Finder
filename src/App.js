@@ -6,6 +6,7 @@ import Navbar from './components/layout/Navbar';
 import About from "./components/pages/About";
 import Home from "./components/pages/Home";
 import User from "./components/pages/User";
+import NotFound from "./components/pages/NotFound";
 
 /**
  *  App component
@@ -26,6 +27,7 @@ class App extends Component {
                             <Route exact path="/" component={Home}/>
                             <Route exact path="/user/:login" component={User}/>
                             <Route exact path="/about" component={About}/>
+                            <Route component={NotFound}/>
                         </Switch>
                     </div>
                 </div>

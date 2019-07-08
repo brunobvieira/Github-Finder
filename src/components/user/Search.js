@@ -1,16 +1,21 @@
 import React, {useState, useContext} from 'react';
 import HomeContext from '../../context/home/HomeContext';
+import AlertContext from '../../context/alert/AlertContext';
 
 /**
  * Search form component
  */
-const Search = ({showAlert}) => {
+const Search = () => {
 
     /**
      * Context
      */
     const homeContext = useContext(HomeContext);
+    const alertContext = useContext(AlertContext);
+
+    const {setAlert} = alertContext;
     const {clearUsers, users} = homeContext;
+
     const hasUsers = users.length > 0;
     const [text, setText] = useState('');
 
@@ -30,12 +35,12 @@ const Search = ({showAlert}) => {
         e.preventDefault();
 
         if (text.length === 0) {
-            showAlert('Please enter something', 'light');
+            setAlert('Please enter something', 'light');
             return;
         }
 
         homeContext.searchUsers(text);
-        showAlert(null);
+        setAlert(null);
     };
 
     /**
